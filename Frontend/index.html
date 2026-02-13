@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .form-group { margin-bottom: 10px; }
+        input { display: block; margin-bottom: 5px; padding: 8px; width: 250px; }
+    </style>
+</head>
+<body>
+    
+    <div>
+        <h2>Crear Nuevo Usuario</h2>
+        <div class="form-group">
+            <input type="text" id="nombreInput" placeholder="Nombre completo">
+            <input type="email" id="emailInput" placeholder="Correo electrónico">
+            <input type="number" id="edadInput" placeholder="Edad">
+        </div>
+        <button onclick="guardar()">Guardar Usuario</button>
+    </div>
+
+    <script>
+        async function guardar() {
+            const nombre = document.getElementById('nombreInput').value;
+            const email = document.getElementById('emailInput').value;
+            const edad = document.getElementById('edadInput').value;
+
+            // El objeto debe tener las llaves que el modelo espera
+            const data = {
+                nombre: nombre,
+                email: email,
+                edad: Number(edad)
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/api/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    console.log('Success:', result);
+                    alert('Usuario guardado exitosamente');
+                    // Limpiar campos
+                    document.getElementById('nombreInput').value = '';
+                    document.getElementById('emailInput').value = '';
+                    document.getElementById('edadInput').value = '';
+                } else {
+                    alert('Error: ' + (result.error || 'No se pudo guardar'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('No se pudo conectar con el servidor');
+            }
+        }
+    </script>
+</body>
+</html>

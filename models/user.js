@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  nombre: String,
+  nombre: { type: String, required: true },
   email: { type: String, unique: true, required: true },
-  edad: Number,
+  edad: { type: Number, required: true },
   fechaCreacion: { type: Date, default: Date.now }
 });
 

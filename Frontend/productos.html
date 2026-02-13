@@ -1,0 +1,29 @@
+<div>
+    <h2>Registrar Producto</h2>
+    <input type="text" id="prodNombre" placeholder="Nombre del producto">
+    <input type="number" id="prodPrecio" placeholder="Precio">
+    <input type="number" id="prodStock" placeholder="Stock">
+    <button onclick="guardarProducto()">Guardar Producto</button>
+</div>
+
+<script>
+async function guardarProducto() {
+    const data = {
+        nombre: document.getElementById('prodNombre').value,
+        precio: Number(document.getElementById('prodPrecio').value),
+        stock: Number(document.getElementById('prodStock').value)
+    };
+
+    const response = await fetch('http://localhost:3000/api/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        alert('¡Producto guardado!');
+    } else {
+        alert('Error al guardar producto');
+    }
+}
+</script>
